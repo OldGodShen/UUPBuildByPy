@@ -98,7 +98,7 @@ echo.
 echo Retrieving aria2 script for Microsoft Store Apps...
 
 :: 传入的参数 %uup_id%
-set "url=https://uupdump.net/get.php?id=%uup_id%&pack=neutral&edition=app&aria2=2"
+set "url=https://uupdump.net/get.php?id=3d68645c-e4c6-4d51-8858-6421e46cb0bb&pack=neutral&edition=app&aria2=2"
 "%aria2%" --no-conf --async-dns=false --console-log-level=warn --log-level=info --log="aria2_download.log" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "%url%"
 if %ERRORLEVEL% GTR 0 call :DOWNLOAD_ERROR & exit /b 1
 echo.
