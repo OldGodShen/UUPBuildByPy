@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # 运行环境可以是ubuntu, windows, 或 macos
+    runs-on: windows-latest  # 运行环境可以是ubuntu, windows, 或 macos
 
     steps:
       # 检出代码
