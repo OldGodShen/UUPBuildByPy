@@ -31,21 +31,13 @@ if NOT "%cd%"=="%cd: =%" (
 )
 
 :: 从uuid.txt中读取UUP ID
-set /p uup_id=<uuid.txt
-if "%uup_id%"=="" (
-    echo No UUP ID found in uuid.txt. Exiting...
-    exit /b 1
-)
+set uup_id=ec8096fc-dc44-483f-a6df-73d6e1ddfb26
 
 :: 提取uup_id的前8位
 set "id_prefix=%uup_id:~0,8%"
 
 :: version.txt中读取version
-set /p version=<version.txt
-if "%version%"=="" (
-    echo No version found in version.txt. Exiting...
-    exit /b 1
-)
+set /p version=26100.2454
 
 if "[%1]" == "[49127c4b-02dc-482e-ac4f-ec4d659b7547]" goto :START_PROCESS
 REG QUERY HKU\S-1-5-19\Environment >NUL 2>&1 && goto :START_PROCESS
