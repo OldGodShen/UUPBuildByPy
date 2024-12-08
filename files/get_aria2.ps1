@@ -7,7 +7,6 @@ try {
 
 $file = 'aria2c.exe'
 $url = 'https://uupdump.net/misc/aria2c.exe';
-$hash = 'b9cd71b275af11b63c33457b0f43f2f2675937070c563e195f223efd7fa4c74b';
 
 function Test-Existence {
     param (
@@ -27,23 +26,6 @@ function Retrieve-File {
     Invoke-WebRequest -UseBasicParsing -Uri $Url -OutFile "files\$File" -ErrorAction Stop
 }
 
-function Test-Hash {
-    param (
-        [String]$File,
-        [String]$Hash
-    )
-
-    Write-Host -BackgroundColor Black -ForegroundColor Cyan "Verifying ${File}..."
-
-    $fileHash = (Get-FileHash -Path "files\$File" -Algorithm SHA256 -ErrorAction Stop).Hash
-    return ($fileHash.ToLower() -eq $Hash)
-}
-
-if((Test-Existence -File $file) -and (Test-Hash -File $file -Hash $hash)) {
-    Write-Host -BackgroundColor Black -ForegroundColor Green "Ready."
-    Exit 0
-}
-
 if(-not (Test-Path -PathType Container -Path "files")) {
     $null = New-Item -Path "files" -ItemType Directory
 }
@@ -55,11 +37,6 @@ try {
 } catch {
     Write-Host "Failed to download $file"
     Write-Host $_
-    Exit 1
-}
-
-if(-not (Test-Hash -File $file -Hash $hash)) {
-    Write-Error "$file appears to be tampered with"
     Exit 1
 }
 
