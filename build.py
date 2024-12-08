@@ -9,7 +9,8 @@ import requests
 ARIA2_PATH = "files/aria2c.exe"
 A7Z_PATH = "files/7zr.exe"
 UUP_CONV_PATH = "files/uup-converter-wimlib.7z"
-ARIA2_SCRIPT_PATH = "files/aria2_script.txt"
+ARIA2_SCRIPT_PATH1 = "files/aria2_script1.txt"
+ARIA2_SCRIPT_PATH2 = "files/aria2_script2.txt"
 DEST_DIR = "UUPs"
 CONVERT_UUP_CMD = "convert-UUP.cmd"
 
@@ -103,28 +104,22 @@ def get_latest_uuid():
         print(f"获取数据时发生错误：{e}")
         return None
 
-def download_aria2_script(url):
-    """下载aria2脚本"""
-    print("下载aria2脚本...")
-    download_file(url, ARIA2_SCRIPT_PATH)
-    print("下载完成")
-
 def download_uup_set(uuid):
     """下载UUP文件集"""
     url = f"https://uupdump.net/get.php?id={uuid}&pack=zh-cn&edition=professional&aria2=2"
-    download_aria2_script(url)
+    download_file(url, ARIA2_SCRIPT_PATH1)
     
     print("下载UUP集...")
-    run_command(f'"{ARIA2_PATH}" --no-conf --async-dns=false --console-log-level=warn --log-level=info --log="aria2_download.log" -x16 -s16 -j5 -c -R -d"{DEST_DIR}" -i"{ARIA2_SCRIPT_PATH}"')
+    run_command(f'"{ARIA2_PATH}" --no-conf --async-dns=false --console-log-level=warn --log-level=info --log="aria2_download.log" -x16 -s16 -j5 -c -R -d"{DEST_DIR}" -i"{ARIA2_SCRIPT_PATH1}"')
     print("下载UUP集完成")
 
 def download_apps(uuid):
     """下载Microsoft Store应用"""
     url = f"https://uupdump.net/get.php?id={uuid}&pack=neutral&edition=app&aria2=2"
-    download_aria2_script(url)
+    download_file(url, ARIA2_SCRIPT_PATH2)
     
     print("下载Microsoft Store应用...")
-    run_command(f'"{ARIA2_PATH}" --no-conf --async-dns=false --console-log-level=warn --log-level=info --log="aria2_download.log" -x16 -s16 -j25 -c -R -d"{DEST_DIR}" -i"{ARIA2_SCRIPT_PATH}"')
+    run_command(f'"{ARIA2_PATH}" --no-conf --async-dns=false --console-log-level=warn --log-level=info --log="aria2_download.log" -x16 -s16 -j25 -c -R -d"{DEST_DIR}" -i"{ARIA2_SCRIPT_PATH2}"')
     print("下载应用完成")
 
 def convert_uup():

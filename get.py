@@ -1,7 +1,7 @@
 import requests
 import os
 
-def get_latest_uuid():
+def get_latest():
     url = "https://api.uupdump.net/listid.php?search=26100&sortByDate=1"
     
     try:
@@ -16,9 +16,10 @@ def get_latest_uuid():
         builds = data.get("response", {}).get("builds", {})
         
         if builds:
-            # 获取最新的 uuid
+            # 获取最新的 uuid,version
             latest_uuid = next(iter(builds.values())).get("uuid")
-            return latest_uuid
+            latest_version = next(iter(builds.values())).get("build")
+            return latest_uuid, latest_version
         else:
             print("No builds found.")
             return None
@@ -26,16 +27,18 @@ def get_latest_uuid():
         print(f"Error fetching data: {e}")
         return None
 
-def save_uuid_to_file(uuid):
+def save_to_file(context,file):
     # 将 uuid 写入临时文件
-    with open("uuid.txt", "w") as file:
-        file.write(uuid)
-    print(f"UUID saved to uuid.txt: {uuid}")
+    with open(file, "w") as file:
+        file.write(context)
+    print(file.name + ",version saved.")
 
 if __name__ == "__main__":
-    uuid = get_latest_uuid()
+    uuid, version = get_latest()
     if uuid:
         print(f"The latest UUID is: {uuid}")
-        save_uuid_to_file(uuid)
+        print(f"The latest version is: {version}")
+        save_to_file(uuid,"uuid.txt")
+        save_to_file(version,"version.txt")
     else:
         print("Failed to retrieve the UUID.")

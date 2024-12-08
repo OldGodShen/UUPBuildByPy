@@ -37,6 +37,22 @@ set command="""%~f0""" 49127c4b-02dc-482e-ac4f-ec4d659b7547
 SETLOCAL ENABLEDELAYEDEXPANSION
 set "command=!command:'=''!"
 
+:: 从uuid.txt中读取UUP ID
+set /p uup_id=<uuid.txt
+if "%uup_id%"=="" (
+    echo No UUP ID found in uuid.txt. Exiting...
+    exit /b 1
+)
+
+:: 提取uup_id的前8位
+set "id_prefix=%uup_id:~0,8%"
+
+:: version.txt中读取version
+set /p version=<version.txt
+if "%version%"=="" (
+    echo No version found in version.txt. Exiting...
+    exit /b 1
+)
 powershell -NoProfile Start-Process -FilePath '%COMSPEC%' ^
 -ArgumentList '/c """!command!"""' -Verb RunAs 2>NUL
 
@@ -52,7 +68,7 @@ SETLOCAL DISABLEDELAYEDEXPANSION
 goto :EOF
 
 :START_PROCESS
-title 26100.2454_amd64_zh-cn_professional_ec8096fc download
+title %version%_amd64_zh-cn_professional_%id_prefix% download
 
 set "aria2=files\aria2c.exe"
 set "a7z=files\7zr.exe"
@@ -79,12 +95,6 @@ echo.
 
 :DOWNLOAD_APPS
 echo Retrieving aria2 script for Microsoft Store Apps...
-:: 使用传入的参数来替换 URL 中的 ID 部分
-set "uup_id=%1"
-if "%uup_id%"=="" (
-    echo No UUP ID provided. Exiting...
-    exit /b 1
-)
 
 :: 将URL中的ec8096fc-dc44-483f-a6df-73d6e1ddfb26替换为传入的参数 %uup_id%
 set "url=https://uupdump.net/get.php?id=%uup_id%&pack=neutral&edition=app&aria2=2"
