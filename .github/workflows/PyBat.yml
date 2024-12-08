@@ -1,4 +1,4 @@
-name: Build Workflow
+name: Build By Bat
 
 on:
     workflow_dispatch:  # 手动触发工作流
@@ -24,7 +24,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt  # 如果你的项目有依赖，取消注释
 
-      # 执行build.py
-      - name: Run build.py
+      # get.py
+      - name: Run get.py
         run: |
-          python build.py  # 执行build.py脚本
+          python get.py  # 执行build.py脚本
+
+      # 执行uup_download_windows.cmd
+      - name: Run uup_download_windows.cmd
+        run: |
+          cmd /c uup_download_windows.cmd  # 执行uup_download_windows.cmd脚本
