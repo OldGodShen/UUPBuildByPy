@@ -16,6 +16,17 @@ CONVERT_UUP_CMD = "convert-UUP.cmd"
 os.environ["PYTHONIOENCODING"] = "utf-8"
 sys.stdout.reconfigure(encoding='utf-8')
 
+def check_and_create_files_folder():
+    """检查是否存在 'files' 文件夹，如果不存在则创建"""
+    folder_path = "files"
+    
+    if not os.path.exists(folder_path):
+        print(f"'{folder_path}' 文件夹不存在，正在创建...")
+        os.makedirs(folder_path)  # 创建文件夹
+        print(f"'{folder_path}' 文件夹已创建。")
+    else:
+        print(f"'{folder_path}' 文件夹已存在。")
+
 def check_admin():
     """检查是否具有管理员权限"""
     if os.name == 'nt':  # Windows
@@ -137,6 +148,8 @@ def main():
         print("未能获取到 UUID，脚本将退出。")
         sys.exit(1)
 
+    check_and_create_files_folder()
+    
     # 下载UUP转换器
     print("下载UUP转换器...")
     download_file("https://uupdump.net/misc/aria2c.exe", ARIA2_PATH)
