@@ -13,6 +13,9 @@ ARIA2_SCRIPT_PATH = "files/aria2_script.txt"
 DEST_DIR = "UUPs"
 CONVERT_UUP_CMD = "convert-UUP.cmd"
 
+os.environ["PYTHONIOENCODING"] = "utf-8"
+sys.stdout.reconfigure(encoding='utf-8')
+
 def check_admin():
     """检查是否具有管理员权限"""
     if os.name == 'nt':  # Windows
