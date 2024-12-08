@@ -79,7 +79,16 @@ echo.
 
 :DOWNLOAD_APPS
 echo Retrieving aria2 script for Microsoft Store Apps...
-"%aria2%" --no-conf --async-dns=false --console-log-level=warn --log-level=info --log="aria2_download.log" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "https://uupdump.net/get.php?id=ec8096fc-dc44-483f-a6df-73d6e1ddfb26&pack=neutral&edition=app&aria2=2"
+:: 使用传入的参数来替换 URL 中的 ID 部分
+set "uup_id=%1"
+if "%uup_id%"=="" (
+    echo No UUP ID provided. Exiting...
+    exit /b 1
+)
+
+:: 将URL中的ec8096fc-dc44-483f-a6df-73d6e1ddfb26替换为传入的参数 %uup_id%
+set "url=https://uupdump.net/get.php?id=%uup_id%&pack=neutral&edition=app&aria2=2"
+"%aria2%" --no-conf --async-dns=false --console-log-level=warn --log-level=info --log="aria2_download.log" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "%url%"
 if %ERRORLEVEL% GTR 0 call :DOWNLOAD_ERROR & exit /b 1
 echo.
 
@@ -99,7 +108,8 @@ echo.
 
 :DOWNLOAD_UUPS
 echo Retrieving aria2 script for the UUP set...
-"%aria2%" --no-conf --async-dns=false --console-log-level=warn --log-level=info --log="aria2_download.log" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "https://uupdump.net/get.php?id=ec8096fc-dc44-483f-a6df-73d6e1ddfb26&pack=zh-cn&edition=professional&aria2=2"
+set "url=https://uupdump.net/get.php?id=%uup_id%&pack=zh-cn&edition=professional&aria2=2"
+"%aria2%" --no-conf --async-dns=false --console-log-level=warn --log-level=info --log="aria2_download.log" -o"%aria2Script%" --allow-overwrite=true --auto-file-renaming=false "%url%"
 if %ERRORLEVEL% GTR 0 call :DOWNLOAD_ERROR & exit /b 1
 echo.
 
