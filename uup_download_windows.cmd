@@ -37,7 +37,7 @@ set uup_id=ec8096fc-dc44-483f-a6df-73d6e1ddfb26
 set "id_prefix=%uup_id:~0,8%"
 
 :: version.txt中读取version
-set /p version=26100.2454
+set version=26100.2454
 
 if "[%1]" == "[49127c4b-02dc-482e-ac4f-ec4d659b7547]" goto :START_PROCESS
 REG QUERY HKU\S-1-5-19\Environment >NUL 2>&1 && goto :START_PROCESS
